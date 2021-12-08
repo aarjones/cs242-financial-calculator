@@ -5,6 +5,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
@@ -114,10 +116,21 @@ public class FinCalcGUI extends Application {
         principleBox.getChildren().addAll(principleLabel, this.principleField);
 
         //Configure durationField
-        this.durationField = new TextField(Float.toString(this.financialCalculator.getDuration()));
+        this.durationField = new TextField(Integer.toString(this.financialCalculator.getDuration()));
         this.durationField.setPrefHeight(50);
         this.durationField.setPrefWidth(MAX_WIDTH / (double) colCount);
         this.durationField.setPromptText("Enter the duration (in months) here...");
+        this.durationField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    durationField.setText(newValue.replaceAll("[^\\d]", ""));
+                } else if(durationField.getLength() > 0){
+                    financialCalculator.setDuration(Integer.parseInt(durationField.getText()));
+                    updateAmount();
+                }
+            }
+        });
 
         Label durationLabel = new Label("Duration (months)");
         VBox durationBox = new VBox();
@@ -126,11 +139,11 @@ public class FinCalcGUI extends Application {
 
         //Configure amountField
         this.amountField = new TextField();
-        updateAmount();
         this.amountField.setPrefHeight(50);
         this.amountField.setPrefWidth(MAX_WIDTH / (double) colCount);
         this.amountField.setPromptText("The calculated amount will appear here...");
         this.amountField.setEditable(false);
+        updateAmount();
 
         Label amountLabel = new Label("Amount after Interest");
         VBox amountBox = new VBox();
@@ -187,7 +200,7 @@ public class FinCalcGUI extends Application {
 
     private void updateAmount() {
         float amount = this.financialCalculator.compute();
-        this.amountField.setText(this.amountFormat.format(amount));
+        this.amountField.setText(amountFormat.format(amount));
     }
 
     private void updateInterest(float interestRate) {

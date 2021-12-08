@@ -14,7 +14,7 @@ public class FinCalc {
 
     private float interestRate;
     private float principal;
-    private float duration;
+    private int duration;
 
     public FinCalc() {
         clearAll();
@@ -38,7 +38,7 @@ public class FinCalc {
         return this.principal;
     }
 
-    public float getDuration() {
+    public int getDuration() {
         return this.duration;
     }
 
@@ -50,7 +50,7 @@ public class FinCalc {
         this.principal = newPrinciple;
     }
 
-    public void setDuration(float newDuration) {
+    public void setDuration(int newDuration) {
         this.duration = newDuration;
     }
 
