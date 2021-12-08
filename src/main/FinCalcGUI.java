@@ -49,7 +49,7 @@ public class FinCalcGUI extends Application {
     /**
      * Default height of the gui.
      */
-    private static final int DEFAULT_HEIGHT = 400;
+    private static final int DEFAULT_HEIGHT = 350;
     /**
      * Decimal Format for printing the final amount.
      */
@@ -75,6 +75,12 @@ public class FinCalcGUI extends Application {
      */
     private FinCalc financialCalculator = new FinCalc();
 
+    /**
+     * Launch the window.
+     *
+     * @param primaryStage The primary stage for the FinancialCalculatorGUI Window.
+     * @throws Exception An Exception.
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
         //Denotes the size of the grid for the calculator
@@ -128,7 +134,7 @@ public class FinCalcGUI extends Application {
             }
         });
 
-        Label principleLabel = new Label("Principle Amount");
+        Label principleLabel = new Label("Principal Amount");
         VBox principleBox = new VBox();
         principleBox.setAlignment(Pos.CENTER);
         principleBox.getChildren().addAll(principleLabel, this.principleField);
@@ -258,14 +264,22 @@ public class FinCalcGUI extends Application {
         primaryStage.show();
     }
 
+    /**
+     * Computes the new amount after interest.
+     */
     private void updateAmount() {
         float amount = this.financialCalculator.compute();
         this.amountField.setText("$" + AMOUNT_FORMAT.format(amount));
     }
 
+    /**
+     * Updates the interest rate of financialCalculator and the interestLabel.
+     *
+     * @param interestRate The new interest rate.
+     */
     private void updateInterest(float interestRate) {
         this.financialCalculator.setInterestRate(interestRate/100);
-        this.interestLabel.setText("Interest Rate: " + interestRate + "%");
+        this.interestLabel.setText("Interest Rate (Monthly): " + interestRate + "%");
         updateAmount();
     }
 
