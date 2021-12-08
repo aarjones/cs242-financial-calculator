@@ -70,7 +70,7 @@ public class FinCalcGUI extends Application {
     /**
      * Decimal Format for printing the final amount.
      */
-    private static final DecimalFormat amountFormat = new DecimalFormat("0.00");
+    private static final DecimalFormat amountFormat = new DecimalFormat("###,##0.00");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -109,6 +109,21 @@ public class FinCalcGUI extends Application {
         this.principleField.setPrefHeight(50);
         this.principleField.setPrefWidth(MAX_WIDTH / (double) colCount);
         this.principleField.setPromptText("Enter the principle value here...");
+        this.principleField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                try {
+                    if(newValue.length() > 0 && !newValue.contains("d") && !newValue.contains("f")) {
+                        financialCalculator.setPrincipal(Float.parseFloat(newValue));
+                        updateAmount();
+                    } else {
+                        principleField.setText(oldValue);
+                    }
+                } catch(NumberFormatException nfe) { //revert to previous value
+                    principleField.setText(oldValue);
+                }
+            }
+        });
 
         Label principleLabel = new Label("Principle");
         VBox principleBox = new VBox();
@@ -151,8 +166,24 @@ public class FinCalcGUI extends Application {
         amountBox.getChildren().addAll(amountLabel, this.amountField);
 
         //Configure typeChooser
-        ObservableList<String> computationOptions = FXCollections.observableArrayList("Compound Interest","Simple Interest");
+        ObservableList<String> computationOptions = FXCollections.observableArrayList("Simple Interest","Compound Interest");
         ComboBox computationChooser = new ComboBox(computationOptions);
+        computationChooser.getSelectionModel().selectFirst();
+        computationChooser.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                switch ((String)computationChooser.getSelectionModel().getSelectedItem())  {
+                    case "Simple Interest" :
+                        financialCalculator.setOption(FinCalc.computationOptions.SIMPLE);
+                        updateAmount();
+                        break;
+                    case "Compound Interest" :
+                        financialCalculator.setOption(FinCalc.computationOptions.COMPOUND);
+                        updateAmount();
+                        break;
+                }
+            }
+        });
 
         Label computationLabel = new Label("Pick a calculation type");
         VBox computationBox = new VBox();
@@ -200,11 +231,11 @@ public class FinCalcGUI extends Application {
 
     private void updateAmount() {
         float amount = this.financialCalculator.compute();
-        this.amountField.setText(amountFormat.format(amount));
+        this.amountField.setText("$" + amountFormat.format(amount));
     }
 
     private void updateInterest(float interestRate) {
-        this.financialCalculator.setInterestRate(interestRate);
+        this.financialCalculator.setInterestRate(interestRate/100);
         this.interestLabel.setText("Interest Rate: " + interestRate + "%");
         updateAmount();
     }

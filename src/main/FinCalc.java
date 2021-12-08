@@ -30,6 +30,10 @@ public class FinCalc {
         }
     }
 
+    public void setOption(computationOptions newOption) {
+        this.option = newOption;
+    }
+
     public float getInterestRate() {
         return this.interestRate;
     }
