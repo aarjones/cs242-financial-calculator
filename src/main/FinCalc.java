@@ -1,9 +1,16 @@
 package main;
 
 public class FinCalc {
+    public enum computationOptions{
+        COMPOUND,
+        SIMPLE
+    }
+
     public final static int DEFAULT_INTEREST_RATE = 3;
     public final static int DEFAULT_PRINCIPAL = 1000;
     public final static int DEFAULT_DURATION = 12;
+
+    private computationOptions option;
 
     private float interestRate;
     private float principal;
@@ -13,12 +20,14 @@ public class FinCalc {
         clearAll();
     }
 
-    public float computeCompound() {
-        return this.principal * (1 + this.interestRate * this.duration);
-    }
-
-    public float computeSimple() {
-        return this.principal * (float) Math.pow(1 + this.interestRate, this.duration);
+    public float compute() {
+        if(this.option.equals(computationOptions.COMPOUND)) {
+            return this.principal * (float)Math.pow(1 + this.interestRate, this.duration);
+        } else if(this.option.equals(computationOptions.SIMPLE)) {
+            return this.principal * (1 + this.interestRate * this.duration);
+        } else {
+            return 0;
+        }
     }
 
     public float getInterestRate() {
@@ -30,7 +39,7 @@ public class FinCalc {
     }
 
     public float getDuration() {
-        return this.interestRate;
+        return this.duration;
     }
 
     public void setInterestRate(float newRate) {
@@ -46,6 +55,7 @@ public class FinCalc {
     }
 
     public void clearAll() {
+        this.option = computationOptions.SIMPLE;
         this.interestRate = DEFAULT_INTEREST_RATE;
         this.principal = DEFAULT_PRINCIPAL;
         this.duration = DEFAULT_DURATION;
