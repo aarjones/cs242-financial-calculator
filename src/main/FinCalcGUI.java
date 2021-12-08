@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -16,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -42,11 +45,15 @@ public class FinCalcGUI extends Application {
     /**
      * Default width of the gui.
      */
-    private static final int DEFAULT_WIDTH = 600;
+    private static final int DEFAULT_WIDTH = 700;
     /**
      * Default height of the gui.
      */
     private static final int DEFAULT_HEIGHT = 400;
+    /**
+     * Decimal Format for printing the final amount.
+     */
+    private static final DecimalFormat AMOUNT_FORMAT = new DecimalFormat("###,##0.00");
     /**
      * The Label which display the current interest rate.
      */
@@ -67,10 +74,6 @@ public class FinCalcGUI extends Application {
      * The calculator to compute with.
      */
     private FinCalc financialCalculator = new FinCalc();
-    /**
-     * Decimal Format for printing the final amount.
-     */
-    private static final DecimalFormat amountFormat = new DecimalFormat("###,##0.00");
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -78,7 +81,7 @@ public class FinCalcGUI extends Application {
         final int colCount = 3;
         final int rowCount = 3;
 
-        primaryStage.setMinWidth(275);
+        primaryStage.setMinWidth(350);
         primaryStage.setMinHeight(300);
 
         //Create Row and Column Constraints.  Used to set sizes in Calculator grid
@@ -125,7 +128,7 @@ public class FinCalcGUI extends Application {
             }
         });
 
-        Label principleLabel = new Label("Principle");
+        Label principleLabel = new Label("Principle Amount");
         VBox principleBox = new VBox();
         principleBox.setAlignment(Pos.CENTER);
         principleBox.getChildren().addAll(principleLabel, this.principleField);
@@ -185,10 +188,11 @@ public class FinCalcGUI extends Application {
             }
         });
 
-        Label computationLabel = new Label("Pick a calculation type");
+        Label computationLabel = new Label("Pick a Calculation Type");
+        Label computationKeyLabel = new Label("Press 'I' to Switch Calculation Type");
         VBox computationBox = new VBox();
         computationBox.setAlignment(Pos.CENTER);
-        computationBox.getChildren().addAll(computationLabel, computationChooser);
+        computationBox.getChildren().addAll(computationLabel, computationChooser, computationKeyLabel);
 
         //Create interest slider
         Slider interestSlider = new Slider(0, 100, 0);
@@ -222,6 +226,31 @@ public class FinCalcGUI extends Application {
         grid.add(interestBox, 0, 1, 3, 1);
         grid.add(amountBox, 0, 2, 3, 1);
 
+        grid.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        if (event.getCode() == KeyCode.I) {
+                            if (computationChooser.getSelectionModel().getSelectedIndex() >= (computationOptions.size() - 1)) {
+                                computationChooser.getSelectionModel().selectFirst();
+                            } else {
+                                computationChooser.getSelectionModel().select(computationChooser.getSelectionModel().getSelectedIndex() + 1);
+                            }
+                        }
+                        event.consume();
+                    }
+                });
+                /*
+                scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        if (event.getCode() == KeyCode.C)
+                            if (computationChooser.getSelectionModel().getSelectedIndex() == computationChooser.getChildrenUnmodifiable().size() - 1)
+                                computationChooser.getSelectionModel().selectFirst();
+                            else
+                                computationChooser.getSelectionModel().select(computationChooser.getSelectionModel().getSelectedIndex() + 1);
+                    }
+                }); */
+
         //Start scene
         primaryStage.setScene(scene);
         primaryStage.setTitle("Financial Calculator");
@@ -231,7 +260,7 @@ public class FinCalcGUI extends Application {
 
     private void updateAmount() {
         float amount = this.financialCalculator.compute();
-        this.amountField.setText("$" + amountFormat.format(amount));
+        this.amountField.setText("$" + AMOUNT_FORMAT.format(amount));
     }
 
     private void updateInterest(float interestRate) {
