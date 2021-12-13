@@ -99,6 +99,7 @@ public class FinCalcGUI extends Application {
 
         //Create a GridPane for Calculator buttons, etc.
         GridPane grid = new GridPane();
+        grid.getStyleClass().add("main-content");
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -112,9 +113,11 @@ public class FinCalcGUI extends Application {
 
         //Create a scene for the calculator
         Scene scene = new Scene(grid, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        scene.getStylesheets().add("res/calc-style.css");
 
         //Configure principleField
         this.principleField = new TextField(Float.toString(this.financialCalculator.getPrincipal()));
+        this.principleField.getStyleClass().add("display-field");
         this.principleField.setPrefHeight(50);
         this.principleField.setPrefWidth(MAX_WIDTH / (double) colCount);
         this.principleField.setPromptText("Enter the principle value here...");
@@ -135,12 +138,14 @@ public class FinCalcGUI extends Application {
         });
 
         Label principleLabel = new Label("Principal Amount");
+        principleLabel.getStyleClass().add("text-label");
         VBox principleBox = new VBox();
         principleBox.setAlignment(Pos.CENTER);
         principleBox.getChildren().addAll(principleLabel, this.principleField);
 
         //Configure durationField
         this.durationField = new TextField(Integer.toString(this.financialCalculator.getDuration()));
+        this.durationField.getStyleClass().add("display-field");
         this.durationField.setPrefHeight(50);
         this.durationField.setPrefWidth(MAX_WIDTH / (double) colCount);
         this.durationField.setPromptText("Enter the duration (in months) here...");
@@ -157,12 +162,14 @@ public class FinCalcGUI extends Application {
         });
 
         Label durationLabel = new Label("Duration (months)");
+        durationLabel.getStyleClass().add("text-label");
         VBox durationBox = new VBox();
         durationBox.setAlignment(Pos.CENTER);
         durationBox.getChildren().addAll(durationLabel, this.durationField);
 
         //Configure amountField
         this.amountField = new TextField();
+        this.amountField.getStyleClass().add("display-field");
         this.amountField.setPrefHeight(50);
         this.amountField.setPrefWidth(MAX_WIDTH / (double) colCount);
         this.amountField.setPromptText("The calculated amount will appear here...");
@@ -170,6 +177,7 @@ public class FinCalcGUI extends Application {
         updateAmount();
 
         Label amountLabel = new Label("Amount after Interest");
+        amountLabel.getStyleClass().add("text-label");
         VBox amountBox = new VBox();
         amountBox.setAlignment(Pos.CENTER);
         amountBox.getChildren().addAll(amountLabel, this.amountField);
@@ -177,6 +185,7 @@ public class FinCalcGUI extends Application {
         //Configure typeChooser
         ObservableList<String> computationOptions = FXCollections.observableArrayList("Simple Interest","Compound Interest");
         ComboBox computationChooser = new ComboBox(computationOptions);
+        computationChooser.getStyleClass().add("display-field");
         computationChooser.getSelectionModel().selectFirst();
         computationChooser.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -195,13 +204,16 @@ public class FinCalcGUI extends Application {
         });
 
         Label computationLabel = new Label("Pick a Calculation Type");
+        computationLabel.getStyleClass().add("text-label");
         Label computationKeyLabel = new Label("Press 'I' to Switch Calculation Type");
+        computationKeyLabel.getStyleClass().add("text-label");
         VBox computationBox = new VBox();
         computationBox.setAlignment(Pos.CENTER);
         computationBox.getChildren().addAll(computationLabel, computationChooser, computationKeyLabel);
 
         //Create interest slider
         Slider interestSlider = new Slider(0, 100, 0);
+        interestSlider.getStyleClass().add("value-slider");
         interestSlider.setShowTickMarks(true);
         interestSlider.setShowTickLabels(true);
         interestSlider.setMajorTickUnit(1f);
@@ -220,6 +232,7 @@ public class FinCalcGUI extends Application {
         });
 
         this.interestLabel = new Label();
+        this.interestLabel.getStyleClass().add("text-label");
         updateInterest(FinCalc.DEFAULT_INTEREST_RATE);
         VBox interestBox = new VBox();
         interestBox.setAlignment(Pos.CENTER);

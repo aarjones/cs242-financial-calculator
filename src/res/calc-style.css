@@ -1,0 +1,76 @@
+.main-content {
+    -fx-background-color: #272727;
+}
+.display-field {
+    -fx-background-color: linear-gradient(#303030, #363636);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0.0, 0, 1);
+    -fx-text-fill: #ffffff;
+}
+.display-field:hover {
+    -fx-background-color: linear-gradient(#383838, #384b4b);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+}
+.display-field:pressed {
+    -fx-background-color: linear-gradient(#3b3b3b, #445252);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+}
+.value-slider .track {
+    -fx-background-color: linear-gradient(#3f3f7f, #404082);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0.0, 0, 1);
+}
+.value-slider .track:hover {
+    -fx-background-color: linear-gradient(#404080, #484886);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+}
+.value-slider .track:pressed {
+    -fx-background-color: linear-gradient(#4d4d8d, #57579a);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0.0, 0, 1);
+}
+.value-slider .thumb {
+    -fx-background-color: linear-gradient(#4d4dd2, #5555df);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0.0, 0, 1);
+}
+.value-slider .thumb:hover {
+    -fx-background-color: linear-gradient(#5555df, #6767e7);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 3, 0.0, 0, 1);
+}
+.value-slider .thumb:pressed {
+    -fx-background-color: linear-gradient(#6767e7, #7171e6);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.4), 5, 0.0, 0, 1);
+}
+.value-slider .axis {
+    -fx-tick-label-fill: #ffffff;
+}
+.text-label {
+    -fx-text-fill: #afafaf;
+}
+.combo-box {
+    -fx-background-color: linear-gradient(#303030, #363636);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0.0, 0, 1);
+}
+.combo-box:hover {
+    -fx-background-color: linear-gradient(#383838, #384b4b);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+}
+.combo-box:pressed {
+    -fx-background-color: linear-gradient(#3b3b3b, #445252);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+}
+.combo-box > .cell:selected {
+    -fx-text-fill: #ffffff;
+}
+.combo-box .list-view .list-cell {
+    -fx-background-color: linear-gradient(#424242, #484848);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.2), 2, 0.0, 0, 1);
+    -fx-text-fill: #ffffff;
+}
+.combo-box .list-view .list-cell:hover {
+    -fx-background-color: linear-gradient(#4a4a4a, #4a5d5d);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+    -fx-text-fill: #ffffff;
+}
+.combo-box .list-view .list-cell:pressed {
+    -fx-background-color: linear-gradient(#4d4d4d, #566464);
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 5, 0.0, 0, 1);
+    -fx-text-fill: #ffffff;
+}
